@@ -1,5 +1,7 @@
 {
   "name": "example-ecommerce-ionic",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
