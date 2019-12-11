@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from 'src/model/item';
 import { CartService } from '../services/cart.service';
 import { HttpClient } from '@angular/common/http';
 
-import { BASE_URL } from 'src/utils/constants';
-import { UserService } from '../services/user.service';
+import { BASE_URL, HttpCode } from 'src/utils/constants';
+import { SalesOrder } from 'src/model/sales.order';
 
 @Component({
     selector: 'app-cart',
@@ -19,6 +19,7 @@ export class CartPage implements OnInit {
     private total: number;
 
     constructor(
+        private router: Router,
         private route: ActivatedRoute,
         private cartService: CartService,
         private http: HttpClient
@@ -36,21 +37,28 @@ export class CartPage implements OnInit {
     }
     
     invoice(): void {
-        this.http.post(BASE_URL+"sales/order/invoice", this.items, { headers: { Autorization: "Bearer "+this.token }})
-        .subscribe();
+        const options = {
+            headers: { Authorization: "Bearer "+this.token }
+        };
 
-        // if (result.status === HTTP.BAD_REQUEST) {
-        //     alert("Você precisa logar como Cliente para fechar o pedido!");
-        //     this.props.navigation.navigate('Login');
-        // } else if (result.status === HTTP.FORBIDDEN) {
-        //     alert("Você precisa logar para fechar o pedido!");
-        //     this.props.navigation.navigate('Login');
-        // } else if (result.status === HTTP.OK) {
-        //     cart.clear();
-        //     this.props.navigation.navigate('SalesOrder');
-        // } else {
-        //     alert("Erro ao buscar os pedidos: "+JSON.stringify(result.data));
-        // }
+        this.http.post(BASE_URL+"sales/order/invoice", this.items, options)
+        .subscribe((data: SalesOrder) => {
+            console.log(data);
+            this.cartService.clear();
+            this.router.navigate(['list']);
+
+        }, (error: any) => {
+            console.error(error);
+            if (error.status === HttpCode.BAD_REQUEST) {
+                alert(error.error);
+                this.router.navigate(['login']);
+            } else if (error.status === HttpCode.FORBIDDEN) {
+                alert("Você precisa logar para fechar o pedido!");
+                this.router.navigate(['login']);
+            } else {
+                alert("Erro ao buscar os pedidos: "+error.error);
+            }
+        });
     }
 
     delete(item: Item): void {

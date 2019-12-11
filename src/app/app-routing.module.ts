@@ -10,12 +10,14 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
     }, {
+        path: 'product',
+        loadChildren: () => import('./product/product.module').then( m => m.ProductPageModule)
+    }, {
         path: 'list',
         loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
     }, {
-        path: 'product',
-        // path: 'product/:id',
-        loadChildren: () => import('./product/product.module').then( m => m.ProductPageModule)
+        path: 'sales-order',
+        loadChildren: () => import('./sales-order/sales-order.module').then(m => m.SalesOrderPageModule)
     }, {
         path: 'login',
         loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
