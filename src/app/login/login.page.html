@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start"> <ion-menu-button></ion-menu-button> </ion-buttons>
+        <ion-title>Autenticar</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="login" checked>
+            <ion-label>Entrar</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="signup">
+            <ion-label>Registrar</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+    <ion-list *ngIf="!isSignup">
+        <ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input type="email" required="true" [(ngModel)]="user.login"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Senha</ion-label>
+            <ion-input type="password" required="true" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="login()">Entrar</ion-button>
+    </ion-list>
+
+    <ion-list *ngIf="isSignup">
+        <ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input type="email" required="true" [(ngModel)]="customer.email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Senha</ion-label>
+            <ion-input type="password" required="true" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Confirmar Senha</ion-label>
+            <ion-input type="password" required="true" [(ngModel)]="confirmPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Nome</ion-label>
+            <ion-input type="text" required="true" [(ngModel)]="customer.name"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Idade</ion-label>
+            <ion-input type="number" required="true" [(ngModel)]="customer.age"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Endereço</ion-label>
+            <ion-input type="text" required="false" [(ngModel)]="customer.address"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="signup()">Registrar</ion-button>
+    </ion-list>
+
+</ion-content>

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { BASE_URL } from '../../utils/constants';
 import { Product } from 'src/model/product';
+import { Router, NavigationExtras } from '@angular/router';
+import { CartService } from '../services/cart.service';
 
 @Component({
     selector: 'app-home',
@@ -13,7 +15,7 @@ export class HomePage {
 
     private products: Product[];
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private router: Router, private dataService: CartService) {}
 
     ionViewWillEnter(): void {
         this.http.get(BASE_URL+"product/list").subscribe((data: Product[]) => {
@@ -25,7 +27,12 @@ export class HomePage {
     }
 
     private openProductScreen(product: Product): void {
-        alert("Open "+ product.name +" product.");
+        const options: NavigationExtras = { state: { product }};
+        this.router.navigate(["product"], options);
+
+        // const id: string = product.id.toString();
+        // this.dataService.set(id, product);
+        // this.router.navigateByUrl('/product/'+id);
     }
 
 }

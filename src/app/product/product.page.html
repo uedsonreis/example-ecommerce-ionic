@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start"> <ion-back-button></ion-back-button> </ion-buttons>
+        <ion-title>{{product.name}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-list>
+        <ion-item>
+            <ion-label>Fabricado por {{product.factory.name}}. </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Temos {{product.amount}} unidades em estoque.</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Valor unitário: R$ {{product.price.toFixed(2)}}</ion-label>
+        </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" (click)="addToCart()">
+        Add 1 unidade no Carrinho
+    </ion-button>
+
+</ion-content>

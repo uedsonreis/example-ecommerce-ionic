@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { CartResolverService } from '../resolver/cart-resolver.service';
+import { UserResolverService } from '../resolver/user-resolver.service';
 
 const routes: Routes = [
     {
@@ -21,7 +23,8 @@ const routes: Routes = [
                 children: [
                     {
                         path: '',
-                        loadChildren: () => import('../list/list.module').then(m => m.ListPageModule)
+                        resolve: { items: CartResolverService, token: UserResolverService },
+                        loadChildren: () => import('../cart/cart.module').then(m => m.CartPageModule)
                     }
                 ]
             },

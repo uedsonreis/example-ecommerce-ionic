@@ -23,8 +23,8 @@ export class AppComponent {
             icon: 'list'
         },
         {
-            title: 'Login',
-            url: '/list',
+            title: 'Entrar',
+            url: '/login',
             icon: 'contact'
         }
     ];

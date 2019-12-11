@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start"> <ion-menu-button></ion-menu-button> </ion-buttons>
+        <ion-title>Carrinho de Compras</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-list>
+
+        <ion-item-sliding *ngFor="let item of items">
+            <ion-item>
+                <ion-label>
+                    {{item.product.factory.name}} {{item.product.name}}
+                    <p>{{item.amount}} un * {{item.price.toFixed(2)}} = R$ {{item.price.toFixed(2)}}</p>
+                </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option color="danger" expandable>
+                    <ion-icon name="trash" size="large" (click)="delete(item)"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+
+        <ion-item>
+            <ion-label>Total do Pedido: R$ {{total.toFixed(2)}}</ion-label>
+        </ion-item>
+
+    </ion-list>
+
+    <ion-button expand="block" (click)="invoice()">
+        Fechar o Pedido
+    </ion-button>
+
+</ion-content>
