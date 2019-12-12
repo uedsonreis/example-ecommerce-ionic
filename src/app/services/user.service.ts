@@ -11,9 +11,9 @@ export class UserService {
 
     constructor(private storage: Storage) {}
 
-    public login(username: string, token: string): void {
-        this.storage.set(UserService.LOGGED, username);
-        this.storage.set(UserService.TOKEN, token);
+    public async login(username: string, token: string): Promise<void> {
+        await this.storage.set(UserService.LOGGED, username);
+        await this.storage.set(UserService.TOKEN, token);
     }
 
     public async getToken(): Promise<string> {
@@ -24,9 +24,9 @@ export class UserService {
         return this.storage.get(UserService.LOGGED);
     }
 
-    public logout(): void {
-        this.storage.remove(UserService.LOGGED);
-        this.storage.remove(UserService.TOKEN);
+    public async logout(): Promise<void> {
+        await this.storage.remove(UserService.LOGGED);
+        await this.storage.remove(UserService.TOKEN);
     }
 
 }

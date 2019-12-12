@@ -45,9 +45,9 @@ export class LoginPage implements OnInit {
     }
 
     private successCallback = (token: string) => {
-        console.log("Token: ", token);
-        this.userService.login(this.user.login, token);
-        this.router.navigate(['home/tab2']);
+        this.userService.login(this.user.login, token).then(() => {
+            this.router.navigate(['home/tab2']);
+        });
     };
 
     private validateForm(): boolean {

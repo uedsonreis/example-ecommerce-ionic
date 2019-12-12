@@ -36,7 +36,9 @@ export class CartPage implements OnInit {
         this.total = total;
     }
     
-    invoice(): void {
+    private invoice(): void {
+        if (this.isEmpty()) return;
+
         const options = {
             headers: { Authorization: "Bearer "+this.token }
         };
@@ -61,7 +63,11 @@ export class CartPage implements OnInit {
         });
     }
 
-    delete(item: Item): void {
+    private isEmpty(): boolean {
+        return (this.items.length <= 0);
+    }
+
+    private delete(item: Item): void {
         this.cartService.remove(item).then((items: Item[]) => {
             this.items = items;
         });

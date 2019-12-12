@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { UserResolverService } from './resolver/user-resolver.service';
 
 const routes: Routes = [
     {
@@ -14,6 +15,7 @@ const routes: Routes = [
         loadChildren: () => import('./product/product.module').then( m => m.ProductPageModule)
     }, {
         path: 'list',
+        resolve: { token: UserResolverService },
         loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
     }, {
         path: 'sales-order',

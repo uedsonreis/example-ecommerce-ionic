@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { BASE_URL, HttpCode } from 'src/utils/constants';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { SalesOrder } from 'src/model/sales.order';
 
 @Component({
     selector: 'app-list',
@@ -6,34 +10,40 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
-    private selectedItem: any;
-    private icons = [
-        'flask',
-        'wifi',
-        'beer',
-        'football',
-        'basketball',
-        'paper-plane',
-        'american-football',
-        'boat',
-        'bluetooth',
-        'build'
-    ];
-    public items: Array<{ title: string; note: string; icon: string }> = [];
-    constructor() {
-        for (let i = 1; i < 11; i++) {
-            this.items.push({
-                title: 'Item ' + i,
-                note: 'This is item #' + i,
-                icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-            });
-        }
-    }
+
+    private salesOrders: SalesOrder[];
+
+    constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {}
 
     ngOnInit() {
+        const token: string = this.route.snapshot.data['token'];
+        const options = { headers: { Authorization: "Bearer "+token } };
+
+        this.http.get(BASE_URL+'sales/order/list', options).subscribe((data: SalesOrder[]) => {
+            console.log("Sales Orders are here: ", data);
+            this.salesOrders = data;
+
+        }, (error: any) => {
+            console.log(error);
+            if (error.status === HttpCode.FORBIDDEN) {
+                alert("Você precisa logar para acessar os seus pedidos!");
+                this.router.navigate(['login']);
+            }
+        });
     }
-    // add back when alpha.4 is out
-    // navigate(item) {
-    //   this.router.navigate(['/list', JSON.stringify(item)]);
-    // }
+
+    private formatDate(dateText: string): string {
+        const day: string = dateText.substring(8, 10);
+        const month: string = dateText.substring(5, 7);
+        const year: string = dateText.substring(0, 4);
+        const hours: string = dateText.substring(11, 16);
+        
+        return day +"/"+ month +"/"+ year +" às "+ hours + "h";
+    }
+
+    private openSalesOrder(salesOrder: SalesOrder): void {
+        const options: NavigationExtras = { state: { salesOrder }};
+        this.router.navigate(["sales-order"], options);
+    }
+
 }
