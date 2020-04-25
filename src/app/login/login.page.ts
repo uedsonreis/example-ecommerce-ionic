@@ -34,8 +34,13 @@ export class LoginPage implements OnInit {
 
         this.user.login = this.customer.email;
         this.customer.user = this.user;
+        
+        const body = {
+            ...this.customer,
+            userPassword: this.customer.user.password
+        };
 
-        this.http.post(BASE_URL+'user/customer/add', this.customer, { responseType: "text" })
+        this.http.post(BASE_URL+'user/customer/add', body, { responseType: "text" })
         .subscribe(this.successCallback, (error: any) => alert(error.error));
     }
 
